@@ -86,8 +86,12 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'general-data': GeneralDatum;
+  };
+  globalsSelect: {
+    'general-data': GeneralDataSelect<false> | GeneralDataSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -327,6 +331,30 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-data".
+ */
+export interface GeneralDatum {
+  id: string;
+  projectsAantal: number;
+  ervaringJaren: number;
+  klantenAantal?: number | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-data_select".
+ */
+export interface GeneralDataSelect<T extends boolean = true> {
+  projectsAantal?: T;
+  ervaringJaren?: T;
+  klantenAantal?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
