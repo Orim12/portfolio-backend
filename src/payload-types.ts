@@ -178,6 +178,7 @@ export interface Project {
       }[]
     | null;
   url?: string | null;
+  email: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -297,6 +298,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         id?: T;
       };
   url?: T;
+  email?: T;
   updatedAt?: T;
   createdAt?: T;
 }
