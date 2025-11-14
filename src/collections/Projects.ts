@@ -2,6 +2,9 @@ import type { CollectionConfig } from 'payload'
 
 export const Projects: CollectionConfig = {
   slug: 'Projects',
+  auth: {
+    useAPIKey: true, 
+  },
   access: {
     read: () => true,
   },
