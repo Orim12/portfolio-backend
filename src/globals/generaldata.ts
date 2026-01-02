@@ -8,19 +8,21 @@ export const GeneralData: GlobalConfig = {
   },
   fields: [
     {
-        name: 'projectsAantal',
-        type: 'number',
-        label: 'Aantal projecten',
-        required: true,
+      name: 'cv',
+      type: 'upload',
+      label: 'cv',
+      relationTo: 'media',
+      required: true,
     },
     {
-        name: 'ervaringJaren',
-        type: 'number',
-        label: 'Jaren ervaring',
-        required: true,
+      name: 'ervaringJaren',
+      type: 'number',
+      label: 'Jaren ervaring',
+      required: true,
     },
     {
-        name: 'klantenAantal',
-        type: 'number',}
+      name: 'klantenAantal',
+      type: 'number',
+    },
   ],
 }

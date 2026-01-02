@@ -340,7 +340,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface GeneralDatum {
   id: string;
-  projectsAantal: number;
+  cv: string | Media;
   ervaringJaren: number;
   klantenAantal?: number | null;
   updatedAt?: string | null;
@@ -351,7 +351,7 @@ export interface GeneralDatum {
  * via the `definition` "general-data_select".
  */
 export interface GeneralDataSelect<T extends boolean = true> {
-  projectsAantal?: T;
+  cv?: T;
   ervaringJaren?: T;
   klantenAantal?: T;
   updatedAt?: T;
