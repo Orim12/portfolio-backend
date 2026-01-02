@@ -38,7 +38,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'url',
       type: 'text',
-      label: 'Project URL',
+      label: 'github URL',
     },
     {
       // this field was added because i somehow got an error that said wrong email field while no email field existed
