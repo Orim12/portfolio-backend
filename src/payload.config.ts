@@ -22,6 +22,12 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  // Globale upload limiet verhogen
+  upload: {
+    limits: {
+      fileSize: 50 * 1024 * 1024, // 50MB in bytes
+    },
+  },
   collections: [Users, Media, Projects],
   globals: [GeneralData],
   cors: [
