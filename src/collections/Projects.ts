@@ -41,6 +41,11 @@ export const Projects: CollectionConfig = {
       label: 'github URL',
     },
     {
+      name: 'liveurl',
+      type: 'text',
+      label: 'Live URL',
+    },
+    {
       // this field was added because i somehow got an error that said wrong email field while no email field existed
       name: 'email',
       type: 'text', // it does not have to be an email it can be random text
