@@ -20,6 +20,15 @@ export const Media: CollectionConfig = {
         hidden: true, // Verberg in admin, we genereren dit automatisch
       },
     },
+    {
+      name: 'publicId',
+      type: 'text',
+      label: 'Public ID',
+      admin: {
+        readOnly: true,
+        hidden: true, // Verberg in admin, we genereren dit automatisch
+      },
+    }
   ],
   hooks: {
     afterRead: [
@@ -35,7 +44,7 @@ export const Media: CollectionConfig = {
           let urlPath = 'image/upload'
 
           const videoExtensions = ['mp4', 'webm', 'mov', 'avi', 'mkv']
-          const rawExtensions = ['pdf', 'doc', 'docx', 'txt', 'zip', 'xls', 'xlsx']
+          const rawExtensions = ['doc', 'docx', 'txt', 'zip', 'xls', 'xlsx']
 
           if (videoExtensions.includes(extension)) {
             urlPath = 'video/upload'
@@ -44,6 +53,7 @@ export const Media: CollectionConfig = {
           }
 
           doc.cloudinaryUrl = `https://res.cloudinary.com/dqbctfrbn/${urlPath}/${publicId}`
+          doc.publicId = publicId
         }
         return doc
       },

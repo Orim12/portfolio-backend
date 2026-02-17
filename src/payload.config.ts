@@ -68,7 +68,7 @@ export default buildConfig({
             let urlPath = 'image/upload'
 
             const videoExtensions = ['mp4', 'webm', 'mov', 'avi', 'mkv']
-            const rawExtensions = ['pdf', 'doc', 'docx', 'txt', 'zip', 'xls', 'xlsx']
+            const rawExtensions = ['doc', 'docx', 'txt', 'zip', 'xls', 'xlsx']
 
             if (videoExtensions.includes(extension)) {
               urlPath = 'video/upload'

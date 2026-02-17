@@ -151,6 +151,7 @@ export interface Media {
   id: string;
   alt: string;
   cloudinaryUrl?: string | null;
+  publicId?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -274,6 +275,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   cloudinaryUrl?: T;
+  publicId?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

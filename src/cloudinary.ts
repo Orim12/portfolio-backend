@@ -24,23 +24,10 @@ export const cloudinaryAdapter = () => ({
       // Since Cloudinary's upload_stream is callback-based, we wrap it in a Promise
       // so we can use async/await syntax for cleaner, easier handling.
       // It uploads the file with a specific public_id under "media/", without overwriting existing files.
-
-      // Determine resource type based on MIME type
-      let resourceType: 'auto' | 'image' | 'video' | 'raw' = 'auto'
-      if (file.mimeType) {
-        if (file.mimeType.startsWith('image/')) {
-          resourceType = 'image'
-        } else if (file.mimeType.startsWith('video/')) {
-          resourceType = 'video'
-        } else {
-          resourceType = 'raw' // For PDFs and other files
-        }
-      }
-
       const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
           {
-            resource_type: resourceType, // Use specific resource type based on file type
+            resource_type: 'auto', // auto-detect file type (image, video, etc.)
             public_id: `media/${file.filename.replace(/\.[^/.]+$/, '')}`, // Set custom file name without extension, and it also previxed the cleaned filename with media/
             overwrite: false, // Do not overwrite if a file with the same name exists
             use_filename: true, // Use original filename
@@ -53,24 +40,8 @@ export const cloudinaryAdapter = () => ({
         )
         uploadStream.end(file.buffer) // this line send the file to cloudinary it means entire file is already in memory and will be send whole thing at once not in chunk
       })
-      file.filename = uploadResult.public_id // Use Cloudinary's public_id as the file's unique name (e.g., "media/orim_Arc")
-
-      // Set proper MIME type based on Cloudinary's resource type
-      const formatToMime: Record<string, string> = {
-        pdf: 'application/pdf',
-        png: 'image/png',
-        jpg: 'image/jpeg',
-        jpeg: 'image/jpeg',
-        gif: 'image/gif',
-        webp: 'image/webp',
-        mp4: 'video/mp4',
-        webm: 'video/webm',
-      }
-
-      // Store resource type info for later use
-      ;(file as any).cloudinaryResourceType = uploadResult.resource_type
-      file.mimeType =
-        formatToMime[uploadResult.format] || `${uploadResult.resource_type}/${uploadResult.format}`
+      file.filename = uploadResult.public_id // Use Cloudinary's public_id as the file's unique name
+      file.mimeType = `${uploadResult.format}` // Set MIME type based on Cloudinary's format (e.g., image/png)
       file.filesize = uploadResult.bytes // Set the actual file size in bytes, for admin display and validations
     } catch (err) {
       console.error('Upload Error', err)
