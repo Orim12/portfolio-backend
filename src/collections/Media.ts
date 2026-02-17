@@ -11,29 +11,29 @@ export const Media: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'cloudinaryUrl',
+      type: 'text',
+      label: 'Cloudinary URL',
+      admin: {
+        readOnly: true,
+        hidden: true, // Verberg in admin, we genereren dit automatisch
+      },
+    },
   ],
-  upload: {
-    staticDir: 'media',
-    imageSizes: [
-      {
-        name: 'thumbnail',
-        width: 400,
-        height: 300,
-        position: 'centre',
-      },
-      {
-        name: 'card',
-        width: 768,
-        height: 1024,
-        position: 'centre',
-      },
-      {
-        name: 'tablet',
-        width: 1024,
-        height: undefined,
-        position: 'centre',
+  hooks: {
+    afterRead: [
+      ({ doc }) => {
+        // Genereer cloudinaryUrl automatisch
+        if (doc.filename) {
+          const publicId = doc.filename.startsWith('media/')
+            ? doc.filename
+            : `media/${doc.filename}`
+          doc.cloudinaryUrl = `https://res.cloudinary.com/dqbctfrbn/image/upload/${publicId}`
+        }
+        return doc
       },
     ],
-    mimeTypes: ['image/*', 'video/*', 'application/pdf'],
   },
+  upload: true,
 }

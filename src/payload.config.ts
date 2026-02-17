@@ -1,11 +1,13 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { cloudinaryAdapter } from './cloudinary'
+import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage'
+import { v2 as cloudinary } from 'cloudinary'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -14,6 +16,12 @@ import { GeneralData } from './globals/generaldata'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 export default buildConfig({
   admin: {
@@ -44,7 +52,21 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    payloadCloudPlugin(),
-    // storage-adapter-placeholder
+    cloudStoragePlugin({
+      collections: {
+        media: {
+          adapter: cloudinaryAdapter,
+          disableLocalStorage: true,
+          generateFileURL: ({ filename }) => {
+            // Zorg dat public_id correct is opgebouwd
+            const publicId = filename.startsWith('media/')
+              ? filename.replace(/\.[^/.]+$/, '')
+              : `media/${filename.replace(/\.[^/.]+$/, '')}`
+
+            return `https://res.cloudinary.com/dqbctfrbn/image/upload/${publicId}`
+          },
+        },
+      },
+    }),
   ],
 })
