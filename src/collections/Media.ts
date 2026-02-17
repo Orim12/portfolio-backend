@@ -27,9 +27,23 @@ export const Media: CollectionConfig = {
         // Genereer cloudinaryUrl automatisch
         if (doc.filename) {
           const publicId = doc.filename.startsWith('media/')
-            ? doc.filename
-            : `media/${doc.filename}`
-          doc.cloudinaryUrl = `https://res.cloudinary.com/dqbctfrbn/image/upload/${publicId}`
+            ? doc.filename.replace(/\.[^/.]+$/, '')
+            : `media/${doc.filename.replace(/\.[^/.]+$/, '')}`
+
+          // Determine resource type based on file extension
+          const extension = doc.filename.split('.').pop()?.toLowerCase() || ''
+          let urlPath = 'image/upload'
+
+          const videoExtensions = ['mp4', 'webm', 'mov', 'avi', 'mkv']
+          const rawExtensions = ['pdf', 'doc', 'docx', 'txt', 'zip', 'xls', 'xlsx']
+
+          if (videoExtensions.includes(extension)) {
+            urlPath = 'video/upload'
+          } else if (rawExtensions.includes(extension)) {
+            urlPath = 'raw/upload'
+          }
+
+          doc.cloudinaryUrl = `https://res.cloudinary.com/dqbctfrbn/${urlPath}/${publicId}`
         }
         return doc
       },

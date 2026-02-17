@@ -58,12 +58,25 @@ export default buildConfig({
           adapter: cloudinaryAdapter,
           disableLocalStorage: true,
           generateFileURL: ({ filename }) => {
-            // Zorg dat public_id correct is opgebouwd
+            // Zorg dat public_id correct is opgebouwd - remove extension properly
             const publicId = filename.startsWith('media/')
               ? filename.replace(/\.[^/.]+$/, '')
               : `media/${filename.replace(/\.[^/.]+$/, '')}`
 
-            return `https://res.cloudinary.com/dqbctfrbn/image/upload/${publicId}`
+            // Determine resource type based on file extension
+            const extension = filename.split('.').pop()?.toLowerCase() || ''
+            let urlPath = 'image/upload'
+
+            const videoExtensions = ['mp4', 'webm', 'mov', 'avi', 'mkv']
+            const rawExtensions = ['pdf', 'doc', 'docx', 'txt', 'zip', 'xls', 'xlsx']
+
+            if (videoExtensions.includes(extension)) {
+              urlPath = 'video/upload'
+            } else if (rawExtensions.includes(extension)) {
+              urlPath = 'raw/upload'
+            }
+
+            return `https://res.cloudinary.com/dqbctfrbn/${urlPath}/${publicId}`
           },
         },
       },
