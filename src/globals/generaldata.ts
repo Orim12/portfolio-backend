@@ -24,5 +24,12 @@ export const GeneralData: GlobalConfig = {
       name: 'klantenAantal',
       type: 'number',
     },
+    {
+      name: 'profielFoto',
+      type: 'upload',
+      label: 'profiel foto',
+      relationTo: 'media',
+      required: true,
+    }
   ],
 }
