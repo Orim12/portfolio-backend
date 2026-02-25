@@ -349,6 +349,7 @@ export interface GeneralDatum {
   cv: string | Media;
   ervaringJaren: number;
   klantenAantal?: number | null;
+  profielFoto: string | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -360,6 +361,7 @@ export interface GeneralDataSelect<T extends boolean = true> {
   cv?: T;
   ervaringJaren?: T;
   klantenAantal?: T;
+  profielFoto?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
