@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.57.0",
-    "@payloadcms/next": "3.57.0",
+    "@payloadcms/next": "3.78.0",
     "@payloadcms/plugin-cloud-storage": "^3.76.1",
     "@payloadcms/richtext-lexical": "3.57.0",
     "@payloadcms/ui": "3.57.0",
